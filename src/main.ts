@@ -1,4 +1,4 @@
-import { App } from "./scripts/App";
+import { App } from "./modules/App";
 
 const app = new App();
 app.run();

@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "description": "",
-  "type": "module",  
+  "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
@@ -11,6 +11,7 @@
     "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
+    "@types/animejs": "^3.1.12",
     "typescript": "^4.9.3",
     "vite": "^4.1.0"
   },
@@ -18,9 +19,10 @@
     "@pixi/layers": "^2.1.0",
     "@pixi/lights": "^4.0.0",
     "@pixi/sound": "^5.1.0",
-    "pixi.js": "^7.1.4",
+    "animejs": "^3.2.2",
+    "gh-pages": "^3.2.3",
     "pixi-spine": "^4.0.4",
-    "gh-pages": "^3.2.3"
+    "pixi.js": "^7.1.4"
   },
   "author": "Andrii Alieksieienko",
   "license": "ISC"
