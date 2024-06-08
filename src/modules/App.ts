@@ -4,7 +4,8 @@ import { CONFIG } from "../config.js";
 import { MainScene } from "./MainScene.js";
 import { manifest } from "../assets.js";
 import { Listener } from "../utils/Listener.js";
-import { Subscription } from "../utils/helpers.js";
+import { Subscription } from "../utils/types.js";
+
 
 export class App {
   canvas: HTMLElement | null = null;

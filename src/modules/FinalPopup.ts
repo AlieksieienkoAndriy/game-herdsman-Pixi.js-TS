@@ -2,9 +2,9 @@ import * as PIXI from "pixi.js";
 import anime from "animejs";
 
 import { MainScene } from "./MainScene";
-import { State } from "../utils/helpers";
 import { events } from "../utils/events";
 import { Listener } from "../utils/Listener";
+import { State } from "../utils/types";
 
 export class FinalPopup {
   app: PIXI.Application;

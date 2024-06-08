@@ -2,22 +2,24 @@ import "pixi-spine";
 import * as PIXI from "pixi.js";
 import { Herdsman } from "./Herdsman";
 import { Sheep } from "./Sheep";
-import { ControllerParams, State, Subscription } from "../utils/helpers";
-import { Herd } from "./Herd";
+// import { Herd } from "./Herd";
 import { SheepController } from "./SheepController";
 import { CONFIG } from "../config";
 import { FinalPopup } from "./FinalPopup";
 import { Listener } from "../utils/Listener";
+import { ControllerParams, State, Subscription } from "../utils/types";
 
 export class MainScene {
   static state = State.idle;
+  
+  
   static scoreValue: number = 0;
 
   app: PIXI.Application;
   container: PIXI.Container;
   corral!: PIXI.Sprite;  
   herdsman!: Herdsman;
-  herd!: Herd;
+  // herd!: Herd;
   controller!: SheepController;
   score!: PIXI.Text;
   sheep_left_sprites!: PIXI.Container;
@@ -25,12 +27,12 @@ export class MainScene {
   finishGameSubscription!: Subscription;
 
   constructor(app: PIXI.Application) {
+    console.log(MainScene.state === 1);
     this.app = app;
     this.container = new PIXI.Container();
 
     this._createBackground();
     this._createUI();
-    this._createHerd();
     this._createHerdsman();
     this._createController();
 
@@ -50,7 +52,6 @@ export class MainScene {
   protected _createBackground() {
     const bg = new PIXI.Sprite(PIXI.Assets.get('bg'));
     bg.scale.set(0.5);
-    // bg.position.y = -580;
     this.container.addChild(bg);
 
     this.corral = new PIXI.Sprite(
@@ -109,32 +110,27 @@ export class MainScene {
 
       this.herdsman.move(e.data.global);
 
-      if (this.herd.herdsmanGroup.length !== 0) {
-        this.herd.herdsmanGroup.forEach((sheep) => {
-          sheep.sprite.emit("follow_herdsman", this.herd.herdsmanGroup.indexOf(sheep));
+      if (this.controller.herdsmanGroup.amount !== 0) {
+        this.controller.herdsmanGroup.sheep.forEach((sheep) => {
+          sheep.sprite.emit("follow_herdsman", this.controller.herdsmanGroup.sheep.indexOf(sheep));
         });
       }
     });
   }
 
-  protected _createHerd() {
-    this.herd = new Herd();
-
-    this.herd.lawnGroup.forEach((sheep: Sheep) => {
-      this.container.addChild(sheep.sprite as PIXI.Sprite);
-    });
-  }
-  
-  protected _createController() {   
+  protected _createController() {
     const params: ControllerParams = {
-      herd: this.herd,
       herdsman: this.herdsman,
       corral: this.corral,
       score: this.score,
       lives: this.sheep_left_sprites
     }
 
-    this.controller = new SheepController(params)
+    this.controller = new SheepController(params);
+
+    this.controller.lawnGroup.sheep.forEach((sheep: Sheep) => {
+      this.container.addChild(sheep.sprite as PIXI.Sprite);
+    });
   }
 
   showFinalPopup() {

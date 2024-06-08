@@ -1,8 +1,8 @@
 import anime from "animejs";
 import * as PIXI from "pixi.js";
 import { Spine } from "pixi-spine";
-import { Point } from "../utils/helpers";
 import { CONFIG } from "../config";
+import { Point } from "../utils/types";
 
 
 export class Herdsman {

@@ -1,4 +1,5 @@
-import { Subscription } from "./helpers";
+import { Subscription } from "./types";
+
 
 export class Listener {
     private static instance: Listener;
