@@ -1,9 +1,12 @@
 import * as PIXI from "pixi.js";
 import { Herdsman } from "../modules/Herdsman";
 
-type ControllerParams = {    
+type SheepControllerParams = {    
     herdsman: Herdsman,
-    corral: PIXI.Sprite,
+    corral: PIXI.Sprite
+}
+
+type ScoreControllerParams = {
     score: PIXI.Text,
     lives: PIXI.Container
 }
@@ -27,4 +30,4 @@ enum State {
 }
 
 export { State };
-export type { ControllerParams, Point, Subscription };
+export type { SheepControllerParams, ScoreControllerParams, Point, Subscription };

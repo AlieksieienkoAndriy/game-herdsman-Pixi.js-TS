@@ -1,36 +1,29 @@
 import { Spine } from "pixi-spine";
 import * as PIXI from "pixi.js";
-import { CONFIG } from "../config";
-import { Utils } from "../utils/helpers";
-import { Herdsman } from "./Herdsman";
-import { MainScene } from "./MainScene";
-import { events } from "../utils/events";
-import { Listener } from "../utils/Listener";
-import { ControllerParams, Point, State, Subscription } from "../utils/types";
-import { SheepGroup } from "./groups/SheepGroup";
-import { Sheep } from "./Sheep";
+import { CONFIG } from "../../config";
+import { Utils } from "../../utils/helpers";
+import { Herdsman } from "../Herdsman";
+import { MainScene } from "../MainScene";
+import { events } from "../../utils/events";
+import { Listener } from "../../utils/Listener";
+import { SheepControllerParams, Point, State, Subscription } from "../../utils/types";
+import { SheepGroup } from "../groups/SheepGroup";
+import { Sheep } from "../Sheep";
 
 export class SheepController {
   herdsman: Herdsman;
   corral: PIXI.Sprite;
-  score: PIXI.Text;
-  lives: PIXI.Container;
-  listener: Listener = Listener.getInstance();
-  decreaseLivesSubscription!: Subscription;
-
-
   lawnGroup: SheepGroup = new SheepGroup();
   herdsmanGroup: SheepGroup = new SheepGroup();
   corralGroup: SheepGroup = new SheepGroup();
+  listener: Listener = Listener.getInstance();
+  runAwaySubscription!: Subscription;
 
-  constructor({herdsman, corral, score, lives}: ControllerParams) {
+  constructor({herdsman, corral}: SheepControllerParams) {
     this.herdsman = herdsman;
     this.corral = corral;
-    this.score = score;
-    this.lives = lives;
 
     this.fillLawnGroup();
-
     this.addListeners();
     this._runAwaySheep();
 
@@ -84,12 +77,12 @@ export class SheepController {
   }
 
   addListeners() {    
-    this.decreaseLivesSubscription = {
-      event: 'decrease_lives',
-      func: this.decreaseLives,
+    this.runAwaySubscription = {
+      event: 'run_away',
+      func: this._runAwaySheep,
       context: this
     };
-    this.listener.add(this.decreaseLivesSubscription);
+    this.listener.add(this.runAwaySubscription);
   }
   
   checkSheeps() {
@@ -129,7 +122,7 @@ export class SheepController {
         sheep.sprite.off('follow_herdsman');
         sheep.isFolowing = false;
 
-        this.increaseScore();
+        this.listener.dispath(events.increaseScoreEvent);
 
         if (this.lawnGroup.amount === 0 && this.herdsmanGroup.amount === 0) {
           MainScene.state = State.won;
@@ -164,24 +157,8 @@ export class SheepController {
     }, time * 1000)
   }
 
-  increaseScore() {
-    MainScene.scoreValue++;
-    this.score.text = `Score: ${MainScene.scoreValue}`;
-  }
-
-  decreaseLives() {
-    this.lives.children.pop();
-
-    if (this.lives.children.length === 0) {
-      MainScene.state = State.lose;
-      this.listener.dispath(events.finishGameEvent);
-    } else {
-      this._runAwaySheep();
-    }
-  }
-
   destroy() {
-    this.listener.remove(this.decreaseLivesSubscription);
+    this.listener.remove(this.runAwaySubscription);
   }
 
   update() {
