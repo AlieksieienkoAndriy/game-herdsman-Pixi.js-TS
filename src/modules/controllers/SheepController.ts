@@ -25,7 +25,7 @@ export class SheepController {
 
     this.fillLawnGroup();
     this.addListeners();
-    this._runAwaySheep();
+    // this._runAwaySheep();
 
   }
 
@@ -150,7 +150,7 @@ export class SheepController {
   
       sheep.isRunningAway = true;
       sheep.move(targetPos);
-      sheep.sprite.once('ran_away', () => {
+      sheep.sprite.once('lost', () => {
         this.lawnGroup.removeSheep(sheep);
         this.listener.dispath(events.decreaseLivesEvent);
       });

@@ -4,10 +4,12 @@ import { Herdsman } from "./Herdsman";
 import { Sheep } from "./Sheep";
 import { SheepController } from "./controllers/SheepController";
 import { CONFIG } from "../config";
-import { FinalPopup } from "./FinalPopup";
+import { FinalPopup } from "./popups/FinalPopup";
 import { Listener } from "../utils/Listener";
 import { ScoreControllerParams, SheepControllerParams, State, Subscription } from "../utils/types";
 import { ScoreController } from "./controllers/ScoreController";
+import { StartPopup } from "./popups/StartPopup";
+import { events } from "../utils/events";
 
 export class MainScene {
   static state = State.idle;
@@ -22,10 +24,10 @@ export class MainScene {
   sheepController!: SheepController;
   scoreController!: ScoreController;
   listener: Listener = Listener.getInstance();
+  startGameSubscription!: Subscription;
   finishGameSubscription!: Subscription;
 
   constructor(app: PIXI.Application) {
-    console.log(MainScene.state === 1);
     this.app = app;
     this.container = new PIXI.Container();
 
@@ -34,6 +36,7 @@ export class MainScene {
     this._createHerdsman();
     this._createSheepController();
     this._createScoreController();
+    this.showStartPopup();
 
     this.addListeners();
   }
@@ -45,6 +48,13 @@ export class MainScene {
       context: this
     }
     this.listener.add(this.finishGameSubscription);
+
+    this.startGameSubscription = {
+      event: 'start_game',
+      func: this.startGame,
+      context: this
+    }
+    this.listener.add(this.startGameSubscription);
   }
 
   protected _createBackground() {
@@ -100,7 +110,6 @@ export class MainScene {
   protected _createHerdsman() {
     this.herdsman = new Herdsman();
     this.container.addChild(this.herdsman.spine as any);
-    this.container.interactive = true;
     this.container.on("pointerdown", (e: PIXI.FederatedPointerEvent) => {
       if (MainScene.state === State.idle) {
         MainScene.state = State.play;
@@ -137,10 +146,21 @@ export class MainScene {
     this.scoreController = new ScoreController(params);    
   }
 
+  startGame() {
+    this.container.interactive = true;
+    this.listener.dispath(events.runAwayEvent);
+    this.listener.remove(this.startGameSubscription);
+  }
+
+  showStartPopup() {
+    const popup = new StartPopup();
+    this.container.addChild(popup.container);   
+  }
+
   showFinalPopup() {
     console.log('Game over');
     this.container.interactive = false;
-    const popup = new FinalPopup(this.app);
+    const popup = new FinalPopup();
     this.container.addChild(popup.container);   
   }
 

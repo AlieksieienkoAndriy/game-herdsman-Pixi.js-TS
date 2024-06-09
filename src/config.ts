@@ -3,6 +3,23 @@ export const CONFIG = {
     width: 1440,
     height: 810
   },
+
+  textStyles: {
+    game: {
+      fontFamily: "DoHyeon",
+      fontSize: 32,
+      fill: "white",
+    },
+
+    popup: {
+      fontFamily: "DoHyeon",
+      fontSize: 48,
+      fill: "white",
+      align: "center",
+      lineHeight: 100,
+    }
+  },
+
   game: {
     textStyle: {
       fontFamily: "DoHyeon",

@@ -64,7 +64,7 @@ export class Sheep {
       complete: () => {
         this.sprite.stop();
         if (this.isRunningAway) {
-          this.sprite.emit('ran_away');
+          this.sprite.emit('lost');
         }        
       }      
     });
