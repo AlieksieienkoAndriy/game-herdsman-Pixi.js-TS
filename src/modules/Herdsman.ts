@@ -27,6 +27,10 @@ export class Herdsman {
   move(point: Point) {
     const config = CONFIG.game.herdsman;
 
+    if (point.y < config.limitY) {
+      point.y = config.limitY
+    }
+
     Herdsman.destination = point;
     this.isMoving = true;
     (this.spine as any).scale.x = (point.x > (this.spine as any).x) ? config.scale : -config.scale;

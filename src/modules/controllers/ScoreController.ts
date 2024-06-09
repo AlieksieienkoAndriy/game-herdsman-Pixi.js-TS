@@ -3,6 +3,7 @@ import { Listener } from "../../utils/Listener";
 import { ScoreControllerParams, State, Subscription } from "../../utils/types";
 import { MainScene } from "../MainScene";
 import { events } from "../../utils/events";
+import { App } from "../App";
 
 
 export class ScoreController {
@@ -44,7 +45,7 @@ export class ScoreController {
         this.lives.children.pop();
 
         if (this.lives.children.length === 0) {
-            MainScene.state = State.lose;
+            App.gameState = State.lose;
             this.listener.dispath(events.finishGameEvent);
         } else {
             this.listener.dispath(events.runAwayEvent);

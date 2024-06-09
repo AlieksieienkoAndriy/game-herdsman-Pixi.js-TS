@@ -10,9 +10,10 @@ import { ScoreControllerParams, SheepControllerParams, State, Subscription } fro
 import { ScoreController } from "./controllers/ScoreController";
 import { StartPopup } from "./popups/StartPopup";
 import { events } from "../utils/events";
+import { App } from "./App";
+import { Popup } from "./popups/Popup";
 
 export class MainScene {
-  static state = State.idle;
   static scoreValue: number = 0;
 
   app: PIXI.Application;
@@ -23,6 +24,7 @@ export class MainScene {
   sheep_left_sprites!: PIXI.Container;
   sheepController!: SheepController;
   scoreController!: ScoreController;
+
   listener: Listener = Listener.getInstance();
   startGameSubscription!: Subscription;
   finishGameSubscription!: Subscription;
@@ -30,13 +32,19 @@ export class MainScene {
   constructor(app: PIXI.Application) {
     this.app = app;
     this.container = new PIXI.Container();
+    this.container.interactive = true;
 
     this._createBackground();
     this._createUI();
     this._createHerdsman();
     this._createSheepController();
     this._createScoreController();
-    this.showStartPopup();
+
+    if (App.gameState === State.idle) {
+      this.showPopup(new StartPopup());
+    } else {
+      this.listener.dispath(events.runAwayEvent);
+    }
 
     this.addListeners();
   }
@@ -44,7 +52,9 @@ export class MainScene {
   addListeners() {
     this.finishGameSubscription = {
       event: 'finish_game',
-      func: this.showFinalPopup,
+      func: () => {
+        this.showPopup(new FinalPopup())
+      },
       context: this
     }
     this.listener.add(this.finishGameSubscription);
@@ -109,10 +119,13 @@ export class MainScene {
 
   protected _createHerdsman() {
     this.herdsman = new Herdsman();
+    this.container.sortableChildren = true;
+    this.herdsman.spine.zIndex = 1;
     this.container.addChild(this.herdsman.spine as any);
+    this
     this.container.on("pointerdown", (e: PIXI.FederatedPointerEvent) => {
-      if (MainScene.state === State.idle) {
-        MainScene.state = State.play;
+      if (App.gameState === State.idle) {
+        App.gameState = State.play;
       }
 
       this.herdsman.move(e.data.global);
@@ -137,6 +150,7 @@ export class MainScene {
       this.container.addChild(sheep.sprite as PIXI.Sprite);
     });
   }
+
   protected _createScoreController() {
     const params: ScoreControllerParams = {      
       score: this.score,
@@ -150,26 +164,18 @@ export class MainScene {
     this.container.interactive = true;
     this.listener.dispath(events.runAwayEvent);
     this.listener.remove(this.startGameSubscription);
-  }
+  }  
 
-  showStartPopup() {
-    const popup = new StartPopup();
-    this.container.addChild(popup.container);   
-  }
-
-  showFinalPopup() {
-    console.log('Game over');
-    this.container.interactive = false;
-    const popup = new FinalPopup();
+  showPopup(popup: Popup) {
+    this.container.interactive = false;    
     this.container.addChild(popup.container);   
   }
 
   destroy() {
     this.listener.remove(this.finishGameSubscription);
-    this.sheepController.destroy();    
-    this.scoreController.destroy();    
+    this.sheepController.destroy();
+    this.scoreController.destroy();
 
-    MainScene.state = State.idle;
     MainScene.scoreValue = 0;
   }
 

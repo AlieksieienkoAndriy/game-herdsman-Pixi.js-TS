@@ -17,6 +17,14 @@ export const CONFIG = {
       fill: "white",
       align: "center",
       lineHeight: 100,
+    },
+
+    rule: {
+      fontFamily: "DoHyeon",
+      fontSize: 48,
+      fill: "white",
+      align: "center",
+      // lineHeight: 100,
     }
   },
 
@@ -37,6 +45,7 @@ export const CONFIG = {
     },
 
     herdsman: {
+      limitY: 220,
       startPos: {
         x: 1300,
         y: 800
@@ -46,6 +55,7 @@ export const CONFIG = {
     },
 
     sheep: {
+      limitY: 220,
       scale: 1.5,
       walkDuration: 1000
 

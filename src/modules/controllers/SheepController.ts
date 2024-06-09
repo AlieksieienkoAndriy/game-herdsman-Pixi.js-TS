@@ -3,12 +3,12 @@ import * as PIXI from "pixi.js";
 import { CONFIG } from "../../config";
 import { Utils } from "../../utils/helpers";
 import { Herdsman } from "../Herdsman";
-import { MainScene } from "../MainScene";
 import { events } from "../../utils/events";
 import { Listener } from "../../utils/Listener";
 import { SheepControllerParams, Point, State, Subscription } from "../../utils/types";
 import { SheepGroup } from "../groups/SheepGroup";
 import { Sheep } from "../Sheep";
+import { App } from "../App";
 
 export class SheepController {
   herdsman: Herdsman;
@@ -25,8 +25,6 @@ export class SheepController {
 
     this.fillLawnGroup();
     this.addListeners();
-    // this._runAwaySheep();
-
   }
 
   fillLawnGroup() {
@@ -125,7 +123,7 @@ export class SheepController {
         this.listener.dispath(events.increaseScoreEvent);
 
         if (this.lawnGroup.amount === 0 && this.herdsmanGroup.amount === 0) {
-          MainScene.state = State.won;
+          App.gameState = State.won;
           this.listener.dispath(events.finishGameEvent);
         }
       });
@@ -145,9 +143,8 @@ export class SheepController {
   
       const targetX = (sheep.sprite.x < CONFIG.canvas.width / 2) ? -config.distance * 2 : CONFIG.canvas.width + config.distance * 2;
       const targetY = Utils.getRandomNum(0, CONFIG.canvas.height);
-  
       const targetPos: Point = {x: targetX, y: targetY};
-  
+
       sheep.isRunningAway = true;
       sheep.move(targetPos);
       sheep.sprite.once('lost', () => {

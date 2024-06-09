@@ -50,6 +50,10 @@ export class Sheep {
     const config = CONFIG.game.sheep;
     this.sprite.scale.x = (point.x > this.sprite.x) ? config.scale : -config.scale;
 
+    if (point.y < config.limitY) {
+      point.y = config.limitY
+    }
+
     if (this._walk && !this._walk.completed) {
       this._walk.remove(this.sprite.position);
     }

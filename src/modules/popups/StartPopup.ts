@@ -2,45 +2,34 @@ import * as PIXI from "pixi.js";
 import anime from "animejs";
 
 import { events } from "../../utils/events";
-import { Listener } from "../../utils/Listener";
 import { CONFIG } from "../../config";
+import { Popup } from "./Popup";
 
-export class StartPopup {  
-  container: PIXI.Container;
-  listener: Listener = Listener.getInstance();
-
-  constructor() {
-    this.container = new PIXI.Container();
-    
-    this.createBackground();
-    this.createText();
-    this.createButton();    
-  }
-
-  createBackground() {
-    const bg = new PIXI.Sprite(PIXI.Texture.WHITE);
-    bg.tint = 0x000000;
-    bg.width = 1440;
-    bg.height = 810;
-    bg.alpha = 0.7;
-    this.container.addChild(bg);
-  };
-
+export class StartPopup extends Popup{
   createText() {
-    const text = `HERDSMAN`;
-    
-      
+    const title = `HERDSMAN`;
 
-    const container_text = new PIXI.Text(text, CONFIG.textStyles.popup as PIXI.ITextStyle);
-    container_text.anchor.set(0.5);
-    container_text.position.set(CONFIG.canvas.width / 2, 200);
-    this.container.addChild(container_text);
+    const container_title = new PIXI.Text(title, CONFIG.textStyles.popup as PIXI.ITextStyle);
+    container_title.anchor.set(0.5);
+    container_title.position.set(CONFIG.canvas.width / 2, 200);
+    this.container.addChild(container_title);
+
+    const rule = 
+    `Try to herd all the sheep into the lawn - 
+    just walk next to the sheep and it'll follow you.
+    But be carefull, some sheep don't mind running away,
+    and they also don't like to walk in groups of more than five sheep.
+    `;
+    const container_rule = new PIXI.Text(rule, CONFIG.textStyles.rule as PIXI.ITextStyle);
+    container_rule.anchor.set(0.5);
+    container_rule.position.set(CONFIG.canvas.width / 2, 400);
+    this.container.addChild(container_rule);
   }
 
   createButton() {
     const button = new PIXI.Sprite(PIXI.Assets.get('restart_button'));
     button.anchor.set(0.5);
-    button.position.set(CONFIG.canvas.width / 2, 400);
+    button.position.set(CONFIG.canvas.width / 2, 600);
     
     const button_text = new PIXI.Text("Play", CONFIG.textStyles.game);
     button_text.anchor.set(0.5);    

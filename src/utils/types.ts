@@ -23,10 +23,10 @@ type Subscription = {
 }
 
 enum State {
-    idle = 1,
-    play = 2,
-    won = 3,
-    lose = 4,
+    idle = 'idle',
+    play = 'play',
+    won = 'won',
+    lose = 'lose',
 }
 
 export { State };

@@ -4,10 +4,12 @@ import { CONFIG } from "../config.js";
 import { MainScene } from "./MainScene.js";
 import { manifest } from "../assets.js";
 import { Listener } from "../utils/Listener.js";
-import { Subscription } from "../utils/types.js";
+import { State, Subscription } from "../utils/types.js";
 
 
 export class App {
+  static gameState = State.idle;
+
   canvas: HTMLElement | null = null;
   app: PIXI.Application | null = null;
   scenes: any[] = [];
@@ -16,7 +18,6 @@ export class App {
   preloader: Promise<unknown> | null = null;
   listener = Listener.getInstance();
   restartGameSubscription!: Subscription
-
 
   async run() {
     this.canvas = document.getElementById("canvas");
@@ -51,6 +52,8 @@ export class App {
   }
 
   resetGame() {
+    App.gameState = State.play;
+
     const mainScene: MainScene = this.scenes[0]
     this.app!.stage.removeChild(mainScene.container)    
     this.app!.ticker.remove(() => mainScene.update());
