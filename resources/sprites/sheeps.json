@@ -1,0 +1,39 @@
+{"frames": {
+
+"Sheep_1.png":
+{
+	"frame": {"x":0,"y":0,"w":38,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":32},
+	"sourceSize": {"w":38,"h":32}
+},
+"Sheep_2.png":
+{
+	"frame": {"x":38,"y":0,"w":38,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":32},
+	"sourceSize": {"w":38,"h":32}
+},
+"Sheep_3.png":
+{
+	"frame": {"x":76,"y":0,"w":38,"h":32},
+	"rotated": false,
+	"trimmed": false,
+	"spriteSourceSize": {"x":0,"y":0,"w":38,"h":32},
+	"sourceSize": {"w":38,"h":32}
+}},
+"animations": {
+	"walk": ["Sheep_1.png","Sheep_2.png","Sheep_3.png"]
+},
+"meta": {
+	"app": "https://www.codeandweb.com/texturepacker",
+	"version": "1.0",
+	"image": "sheeps.png",
+	"format": "RGBA8888",
+	"size": {"w":114,"h":32},
+	"scale": "1",
+	"smartupdate": "$TexturePacker:SmartUpdate:f40c306f9243bc8fd4ce1b7a10ce5f23:0696d3420feb14bef84eec88ab02acc9:4e92fff19514a362d4641c52b21c8012$"
+}
+}
