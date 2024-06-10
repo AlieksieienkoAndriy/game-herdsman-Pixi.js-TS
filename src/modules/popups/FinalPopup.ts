@@ -20,7 +20,7 @@ export class FinalPopup extends Popup {
     const container_text = new PIXI.Text(text, CONFIG.textStyles.popup as PIXI.ITextStyle);
     container_text.anchor.set(0.5);
     container_text.position.set(CONFIG.canvas.width / 2, 200);
-    this.container.addChild(container_text);
+    this.container.addChild(container_text as PIXI.DisplayObject);
   }
 
   createButton() {
@@ -30,7 +30,7 @@ export class FinalPopup extends Popup {
     
     const button_text = new PIXI.Text("Restart", CONFIG.textStyles.game);
     button_text.anchor.set(0.5);    
-    button.addChild(button_text);
+    button.addChild(button_text as PIXI.DisplayObject);
 
     button.interactive = true;
     button.once("pointerdown", () => {
@@ -48,6 +48,6 @@ export class FinalPopup extends Popup {
       });
     });
     
-    this.container.addChild(button);
+    this.container.addChild(button as PIXI.DisplayObject);
   }
 }

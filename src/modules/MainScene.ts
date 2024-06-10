@@ -70,7 +70,7 @@ export class MainScene {
   protected _createBackground() {
     const bg = new PIXI.Sprite(PIXI.Assets.get('bg'));
     bg.scale.set(0.5);
-    this.container.addChild(bg);
+    this.container.addChild(bg as PIXI.DisplayObject);
 
     this.corral = new PIXI.Sprite(
       PIXI.Assets.get('corral')
@@ -78,21 +78,21 @@ export class MainScene {
     this.corral.anchor.set(1);
     this.corral.scale.set(0.3);
     this.corral.position.set(this.app.view.width, this.app.view.height);
-    this.container.addChild(this.corral);
+    this.container.addChild(this.corral as PIXI.DisplayObject);
   }
 
   protected _createUI() {
     const ui = new PIXI.Container();
     const bg = new PIXI.Sprite(PIXI.Assets.get('black_bg'));
-    ui.addChild(bg);
+    ui.addChild(bg as PIXI.DisplayObject);
 
     this.score = new PIXI.Text(`Score: ${MainScene.scoreValue}`, CONFIG.game.textStyle);
     this.score.position.set(0, (ui.height - this.score.height) / 2);
-    ui.addChild(this.score);
+    ui.addChild(this.score as PIXI.DisplayObject);
     
     const sheep_left = new PIXI.Container();
     const sheep_left_text = new PIXI.Text(`Sheep: `, CONFIG.game.textStyle);
-    sheep_left.addChild(sheep_left_text);
+    sheep_left.addChild(sheep_left_text as PIXI.DisplayObject);
 
     this.sheep_left_sprites = new PIXI.Container();
     
@@ -101,9 +101,9 @@ export class MainScene {
         PIXI.Assets.get('sheeps').textures["Sheep_1.png"]
       );
       sheep.position.set(i * (sheep.width + 10) + sheep_left_text.width, 0);
-      this.sheep_left_sprites.addChild(sheep);
+      this.sheep_left_sprites.addChild(sheep as PIXI.DisplayObject);
     }
-    sheep_left.addChild(this.sheep_left_sprites);
+    sheep_left.addChild(this.sheep_left_sprites as PIXI.DisplayObject);
     sheep_left_text.position.set(
       0,
       (sheep_left.height - sheep_left_text.height) / 2
@@ -112,9 +112,9 @@ export class MainScene {
       this.app.screen.width / 2 - sheep_left.width / 2,
       (ui.height - sheep_left.height) / 2
     );
-    ui.addChild(sheep_left);
+    ui.addChild(sheep_left as PIXI.DisplayObject);
 
-    this.container.addChild(ui);
+    this.container.addChild(ui as PIXI.DisplayObject);
   };
 
   protected _createHerdsman() {
@@ -147,7 +147,7 @@ export class MainScene {
     this.sheepController = new SheepController(params);
 
     this.sheepController.lawnGroup.sheep.forEach((sheep: Sheep) => {
-      this.container.addChild(sheep.sprite as PIXI.Sprite);
+      this.container.addChild(sheep.sprite as PIXI.DisplayObject);
     });
   }
 
@@ -168,7 +168,7 @@ export class MainScene {
 
   showPopup(popup: Popup) {
     this.container.interactive = false;    
-    this.container.addChild(popup.container);   
+    this.container.addChild(popup.container as PIXI.DisplayObject);   
   }
 
   destroy() {

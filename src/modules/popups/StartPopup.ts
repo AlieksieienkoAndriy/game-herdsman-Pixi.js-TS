@@ -12,7 +12,7 @@ export class StartPopup extends Popup{
     const container_title = new PIXI.Text(title, CONFIG.textStyles.popup as PIXI.ITextStyle);
     container_title.anchor.set(0.5);
     container_title.position.set(CONFIG.canvas.width / 2, 200);
-    this.container.addChild(container_title);
+    this.container.addChild(container_title as PIXI.DisplayObject);
 
     const rule = 
     `Try to herd all the sheep into the lawn - 
@@ -23,7 +23,7 @@ export class StartPopup extends Popup{
     const container_rule = new PIXI.Text(rule, CONFIG.textStyles.rule as PIXI.ITextStyle);
     container_rule.anchor.set(0.5);
     container_rule.position.set(CONFIG.canvas.width / 2, 400);
-    this.container.addChild(container_rule);
+    this.container.addChild(container_rule as PIXI.DisplayObject);
   }
 
   createButton() {
@@ -33,7 +33,7 @@ export class StartPopup extends Popup{
     
     const button_text = new PIXI.Text("Play", CONFIG.textStyles.game);
     button_text.anchor.set(0.5);    
-    button.addChild(button_text);
+    button.addChild(button_text as PIXI.DisplayObject);
 
     button.interactive = true;
     button.once("pointerdown", () => {
@@ -52,6 +52,6 @@ export class StartPopup extends Popup{
       });
     });
     
-    this.container.addChild(button);
+    this.container.addChild(button as PIXI.DisplayObject);
   }
 }

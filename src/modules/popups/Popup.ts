@@ -20,7 +20,7 @@ export abstract class Popup {
     bg.width = 1440;
     bg.height = 810;
     bg.alpha = 0.7;
-    this.container.addChild(bg);
+    this.container.addChild(bg as PIXI.DisplayObject);
   };
 
   createText() {    

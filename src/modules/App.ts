@@ -47,7 +47,7 @@ export class App {
     const mainScene = new MainScene(this.app!);
     this.scenes.push(mainScene);
 
-    this.app!.stage.addChild(mainScene.container);
+    this.app!.stage.addChild(mainScene.container as PIXI.DisplayObject);
     this.app!.ticker.add(() => mainScene.update());
   }
 
@@ -55,7 +55,7 @@ export class App {
     App.gameState = State.play;
 
     const mainScene: MainScene = this.scenes[0]
-    this.app!.stage.removeChild(mainScene.container)    
+    this.app!.stage.removeChild(mainScene.container as PIXI.DisplayObject)    
     this.app!.ticker.remove(() => mainScene.update());
     mainScene.destroy();
     
