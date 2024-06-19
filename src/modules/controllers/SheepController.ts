@@ -8,7 +8,7 @@ import { Listener } from "../../utils/Listener";
 import { SheepControllerParams, Point, State, Subscription } from "../../utils/types";
 import { SheepGroup } from "../groups/SheepGroup";
 import { Sheep } from "../Sheep";
-import { App } from "../App";
+import { SceneManager } from "../SceneManager";
 
 export class SheepController {
   herdsman: Herdsman;
@@ -123,7 +123,7 @@ export class SheepController {
         this.listener.dispath(events.increaseScoreEvent);
 
         if (this.lawnGroup.amount === 0 && this.herdsmanGroup.amount === 0) {
-          App.gameState = State.won;
+          SceneManager.gameState = State.won;
           this.listener.dispath(events.finishGameEvent);
         }
       });

@@ -1,7 +1,12 @@
 import * as PIXI from "pixi.js";
 import { Herdsman } from "../modules/Herdsman";
 
-type SheepControllerParams = {    
+export interface IScene extends PIXI.DisplayObject {
+    update(framesPassed: number): void;
+    destroyScene(): void
+}
+
+type SheepControllerParams = {
     herdsman: Herdsman,
     corral: PIXI.Sprite
 }

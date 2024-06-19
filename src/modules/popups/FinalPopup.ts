@@ -1,20 +1,20 @@
 import * as PIXI from "pixi.js";
 import anime from "animejs";
 
-import { MainScene } from "../MainScene";
+import { GameScene } from "../scenes/GameScene";
 import { events } from "../../utils/events";
 import { State } from "../../utils/types";
 import { CONFIG } from "../../config";
-import { App } from "../App";
 import { Popup } from "./Popup";
+import { SceneManager } from "../SceneManager";
 
 export class FinalPopup extends Popup {
   createText() {
     let text;
-    if (App.gameState === State.won) {
+    if (SceneManager.gameState === State.won) {
       text = "CONGRATULATIONS!!!\nYou won!";
     } else {
-      text = `GAME OVER\nYou gathered ${MainScene.scoreValue} sheep`;
+      text = `GAME OVER\nYou gathered ${GameScene.scoreValue} sheep`;
     }
 
     const container_text = new PIXI.Text(text, CONFIG.textStyles.popup as PIXI.ITextStyle);

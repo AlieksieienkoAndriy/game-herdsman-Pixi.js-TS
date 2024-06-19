@@ -1,9 +1,9 @@
 import * as PIXI from "pixi.js";
 import { Listener } from "../../utils/Listener";
 import { ScoreControllerParams, State, Subscription } from "../../utils/types";
-import { MainScene } from "../MainScene";
+import { GameScene } from "../scenes/GameScene";
 import { events } from "../../utils/events";
-import { App } from "../App";
+import { SceneManager } from "../SceneManager";
 
 
 export class ScoreController {
@@ -37,15 +37,15 @@ export class ScoreController {
     }
 
     increaseScore() {
-        MainScene.scoreValue++;
-        this.score.text = `Score: ${MainScene.scoreValue}`;
+        GameScene.scoreValue++;
+        this.score.text = `Score: ${GameScene.scoreValue}`;
     }
 
     decreaseLives() {
         this.lives.children.pop();
 
         if (this.lives.children.length === 0) {
-            App.gameState = State.lose;
+            SceneManager.gameState = State.lose;
             this.listener.dispath(events.finishGameEvent);
         } else {
             this.listener.dispath(events.runAwayEvent);
