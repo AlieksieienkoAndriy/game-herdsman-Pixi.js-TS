@@ -18,6 +18,7 @@ export class App {
   preloader: Promise<unknown> | null = null;
   listener = Listener.getInstance();
   restartGameSubscription!: Subscription
+  static canvas: any;
 
   async run() {
     this.canvas = document.getElementById("canvas");
@@ -64,30 +65,23 @@ export class App {
     this.createMainState();
   }
 
-  onResize() {
+  public onResize(): void {
+    const screenWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const screenHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+    const scale = Math.min(screenWidth / CONFIG.canvas.width, screenHeight / CONFIG.canvas.height);
+
+    const enlargedWidth = Math.floor(scale * CONFIG.canvas.width);
+    const enlargedHeight = Math.floor(scale * CONFIG.canvas.height);
+
+    const horizontalMargin = (screenWidth - enlargedWidth) / 2;
+    const verticalMargin = (screenHeight - enlargedHeight) / 2;
+
     const style = this.canvas!.style;
-    let width;
-    let height;
-    let margin;
 
-    if (window.innerWidth > (window.innerHeight * CONFIG.canvas.width) / CONFIG.canvas.height) {
-      width = (window.innerHeight / CONFIG.canvas.height) * CONFIG.canvas.width;
-      height = window.innerHeight;
-      margin = (window.innerWidth - width) / 2;
-
-      style.width = `${width}px`;
-      style.height = `${height}px`;
-      style.marginTop = `0`;
-      style.marginLeft = `${margin}px`;
-    } else {
-      width = window.innerWidth;
-      height = (window.innerWidth / CONFIG.canvas.width) * CONFIG.canvas.height;
-      margin = (window.innerHeight - height) / 2;
-
-      style.width = `${width}px`;
-      style.height = `${height}px`;
-      style.marginTop = `${margin}px`;
-      style.marginLeft = `0`;
-    }
+    style!.width = `${enlargedWidth}px`;
+    style!.height = `${enlargedHeight}px`;
+    (style as any)!.marginLeft = (style as any)!.marginRight = `${horizontalMargin}px`;
+    (style as any)!.marginTop = (style as any)!.marginBottom = `${verticalMargin}px`;
   }
 }
