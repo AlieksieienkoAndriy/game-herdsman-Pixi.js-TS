@@ -69,8 +69,6 @@ export class GameScene extends PIXI.Container implements IScene {
       context: SceneManager
     };
     this.listener.add(this.restartGameSubscription);
-
-
   }
 
   protected _createBackground() {
@@ -190,6 +188,5 @@ export class GameScene extends PIXI.Container implements IScene {
 
   update(_framesPassed: number): void {
     this.sheepController.update();
-
   }
 };

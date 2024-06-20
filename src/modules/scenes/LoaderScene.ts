@@ -1,10 +1,9 @@
 import * as PIXI from "pixi.js";
-
-import { IScene } from "../../utils/types";
 import { SceneManager } from "../SceneManager";
 import { manifest } from "../../assets";
 import { GameScene } from "./GameScene";
 import { CONFIG } from "../../config";
+import { IScene } from "../../utils/types";
 
 export class LoaderScene extends PIXI.Container implements IScene {
   private loaderBar!: PIXI.Container;
@@ -37,18 +36,18 @@ export class LoaderScene extends PIXI.Container implements IScene {
     this.loaderBarBoder.drawRect(0, 0, loaderBarWidth, 30);
 
     this.loaderBar = new PIXI.Container();
-    this.loaderBar.addChild(this.loaderBarFill);
-    this.loaderBar.addChild(this.loaderBarBoder);
+    this.loaderBar.addChild(this.loaderBarFill as PIXI.DisplayObject);
+    this.loaderBar.addChild(this.loaderBarBoder as PIXI.DisplayObject);
     this.loaderBar.position.x = (SceneManager.width - this.loaderBar.width) / 2;
     this.loaderBar.position.y = (SceneManager.height - this.loaderBar.height) / 2;
-    this.addChild(this.loaderBar);
+    this.addChild(this.loaderBar as PIXI.DisplayObject);
   }
 
   private createText() {
     const text = new PIXI.Text('Loading...', CONFIG.textStyles.game as PIXI.ITextStyle);
     text.anchor.set(0.5);
     text.position.set(SceneManager.width / 2, this.loaderBar.y - 50);
-    this.addChild(text);
+    this.addChild(text as PIXI.DisplayObject);
 
     this.progress = new PIXI.Text('0%', CONFIG.textStyles.game as PIXI.ITextStyle);
     this.progress.anchor.set(0.5);
@@ -56,15 +55,13 @@ export class LoaderScene extends PIXI.Container implements IScene {
       this.loaderBar.x + this.loaderBar.width / 2, 
       this.loaderBar.y + this.loaderBar.height / 2
     );
-    this.addChild(this.progress);
+    this.addChild(this.progress as PIXI.DisplayObject);
   }
 
   public async initializeLoader(): Promise<void> {
     await PIXI.Assets.init(manifest);
 
     const bundleIds = (manifest.manifest as any).bundles.map((bundle: { name: any }) => bundle.name);
-    console.log(bundleIds);
-
     await PIXI.Assets.loadBundle(bundleIds, this.downloadProgress.bind(this));
   }
 

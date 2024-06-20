@@ -1,7 +1,7 @@
 import * as PIXI from "pixi.js";
 import { Herdsman } from "../modules/Herdsman";
 
-export interface IScene extends PIXI.DisplayObject {
+export interface IScene extends PIXI.Container {
     update(framesPassed: number): void;
     destroyScene(): void
 }

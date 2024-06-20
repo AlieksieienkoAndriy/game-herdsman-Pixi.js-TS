@@ -1,4 +1,4 @@
-import { Application } from "pixi.js";
+import { Application, DisplayObject } from "pixi.js";
 import { IScene, State } from "../utils/types";
 import { GameScene } from "./scenes/GameScene";
 
@@ -43,12 +43,12 @@ export class SceneManager {
 
   public static changeScene(newScene: IScene): void {
     if (SceneManager.currentScene) {
-      SceneManager.app.stage.removeChild(SceneManager.currentScene);
+      SceneManager.app.stage.removeChild(SceneManager.currentScene as DisplayObject);
       SceneManager.currentScene.destroy();
     }
 
     SceneManager.currentScene = newScene;
-    SceneManager.app.stage.addChild(SceneManager.currentScene);
+    SceneManager.app.stage.addChild(SceneManager.currentScene as DisplayObject);
   }
 
   public static resetGame() {
