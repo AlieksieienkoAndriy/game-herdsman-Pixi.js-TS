@@ -7,7 +7,7 @@ import { SceneManager } from "../SceneManager";
 
 
 export class ScoreController {
-    score: PIXI.Text;
+    score: PIXI.BitmapText;
     lives: PIXI.Container;
     listener: Listener = Listener.getInstance();
     decreaseLivesSubscription!: Subscription;

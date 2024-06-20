@@ -12,7 +12,7 @@ type SheepControllerParams = {
 }
 
 type ScoreControllerParams = {
-    score: PIXI.Text,
+    score: PIXI.BitmapText,
     lives: PIXI.Container
 }
 

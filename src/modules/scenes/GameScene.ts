@@ -10,7 +10,6 @@ import { IScene, ScoreControllerParams, SheepControllerParams, State, Subscripti
 import { ScoreController } from "../controllers/ScoreController";
 import { StartPopup } from "../popups/StartPopup";
 import { events } from "../../utils/events";
-// import { App } from "../App";
 import { Popup } from "../popups/Popup";
 import { SceneManager } from "../SceneManager";
 
@@ -18,7 +17,7 @@ export class GameScene extends PIXI.Container implements IScene {
   static scoreValue: number = 0;  
   corral!: PIXI.Sprite;  
   herdsman!: Herdsman;
-  score!: PIXI.Text;
+  score!: PIXI.BitmapText;
   sheep_left_sprites!: PIXI.Container;
   sheepController!: SheepController;
   scoreController!: ScoreController;
@@ -26,6 +25,7 @@ export class GameScene extends PIXI.Container implements IScene {
   listener: Listener = Listener.getInstance();
   startGameSubscription!: Subscription;
   finishGameSubscription!: Subscription;
+  restartGameSubscription!: Subscription;
 
   constructor() {    
     super();
@@ -62,6 +62,15 @@ export class GameScene extends PIXI.Container implements IScene {
       context: this
     }
     this.listener.add(this.startGameSubscription);
+
+    this.restartGameSubscription = {
+      event: 'restart_game',
+      func: SceneManager.resetGame,
+      context: SceneManager
+    };
+    this.listener.add(this.restartGameSubscription);
+
+
   }
 
   protected _createBackground() {
@@ -83,12 +92,12 @@ export class GameScene extends PIXI.Container implements IScene {
     const bg = new PIXI.Sprite(PIXI.Assets.get('black_bg'));
     ui.addChild(bg as PIXI.DisplayObject);
 
-    this.score = new PIXI.Text(`Score: ${GameScene.scoreValue}`, CONFIG.game.textStyle);
+    this.score = new PIXI.BitmapText(`Score: ${GameScene.scoreValue}`, CONFIG.textStyles.bitmapStyle);
     this.score.position.set(0, (ui.height - this.score.height) / 2);
     ui.addChild(this.score as PIXI.DisplayObject);
     
     const sheep_left = new PIXI.Container();
-    const sheep_left_text = new PIXI.Text(`Sheep: `, CONFIG.game.textStyle);
+    const sheep_left_text = new PIXI.BitmapText(`Sheep: `, CONFIG.textStyles.bitmapStyle);
     sheep_left.addChild(sheep_left_text as PIXI.DisplayObject);
 
     this.sheep_left_sprites = new PIXI.Container();
@@ -100,6 +109,9 @@ export class GameScene extends PIXI.Container implements IScene {
       sheep.position.set(i * (sheep.width + 10) + sheep_left_text.width, 0);
       this.sheep_left_sprites.addChild(sheep as PIXI.DisplayObject);
     }
+    this.sheep_left_sprites.pivot.y = this.sheep_left_sprites.height / 2;
+    this.sheep_left_sprites.position.y = sheep_left.height / 2;
+
     sheep_left.addChild(this.sheep_left_sprites as PIXI.DisplayObject);
     sheep_left_text.position.set(
       0,
@@ -176,9 +188,6 @@ export class GameScene extends PIXI.Container implements IScene {
     GameScene.scoreValue = 0;
   }
 
-  // update() {
-  //   this.sheepController.update();
-  // }
   update(_framesPassed: number): void {
     this.sheepController.update();
 

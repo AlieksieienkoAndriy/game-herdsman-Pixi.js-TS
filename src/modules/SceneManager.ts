@@ -1,13 +1,9 @@
 import { Application } from "pixi.js";
-import { IScene, State, Subscription } from "../utils/types";
+import { IScene, State } from "../utils/types";
 import { GameScene } from "./scenes/GameScene";
-import { Listener } from "../utils/Listener";
 
 export class SceneManager {
-  private static listener = Listener.getInstance();
-  private static restartGameSubscription: Subscription
-
-  private constructor() { /*this class is purely static. No constructor to see here*/ }
+  private constructor() { /*this class is purely static*/ }
 
   private static app: Application;
   private static currentScene: IScene;
@@ -43,13 +39,6 @@ export class SceneManager {
 
     window.addEventListener('resize', SceneManager.resize);
     SceneManager.resize();
-
-    SceneManager.restartGameSubscription = {
-      event: 'restart_game',
-      func: SceneManager.resetGame,
-      context: SceneManager
-    };
-    SceneManager.listener.add(this.restartGameSubscription);
   }
 
   public static changeScene(newScene: IScene): void {

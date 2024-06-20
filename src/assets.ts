@@ -22,6 +22,7 @@ export const manifest: PIXI.AssetInitOptions = {
           name: "fonts",
           assets: {
             "DoHyeon": "resources/fonts/DoHyeon-Regular.ttf",
+            "desyrel": "resources/bitmap_fonts/desyrel.xml",
           }
         },
         {

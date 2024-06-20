@@ -23,18 +23,16 @@ export const CONFIG = {
       fontFamily: "DoHyeon",
       fontSize: 48,
       fill: "white",
-      align: "center",
-      // lineHeight: 100,
-    }
+      align: "center"
+    },
+
+    bitmapStyle: {
+      fontName: 'Desyrel',
+      fontSize: 35      
+    },
   },
 
   game: {
-    textStyle: {
-      fontFamily: "DoHyeon",
-      fontSize: 32,
-      fill: "white",
-    },
-
     herd: {
       groupLimit: 5,
       sheepAmount: {
@@ -58,7 +56,6 @@ export const CONFIG = {
       limitY: 220,
       scale: 1.5,
       walkDuration: 1000
-
     }
   }
 }
