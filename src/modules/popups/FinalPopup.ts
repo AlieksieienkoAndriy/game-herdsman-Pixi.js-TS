@@ -24,7 +24,7 @@ export class FinalPopup extends Popup {
   }
 
   createButton() {
-    const button = new PIXI.Sprite(PIXI.Assets.get('restart_button'));
+    const button = PIXI.Sprite.from("restart_button.png");
     button.anchor.set(0.5);
     button.position.set(CONFIG.canvas.width / 2, 400);
     

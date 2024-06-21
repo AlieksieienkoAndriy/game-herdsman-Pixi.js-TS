@@ -76,9 +76,7 @@ export class GameScene extends PIXI.Container implements IScene {
     bg.scale.set(0.5);
     this.addChild(bg as PIXI.DisplayObject);
 
-    this.corral = new PIXI.Sprite(
-      PIXI.Assets.get('corral')
-    );
+    this.corral = PIXI.Sprite.from("corral.png");
     this.corral.anchor.set(1);
     this.corral.scale.set(0.3);
     this.corral.position.set(SceneManager.width, SceneManager.height);
@@ -87,7 +85,7 @@ export class GameScene extends PIXI.Container implements IScene {
 
   protected _createUI() {
     const ui = new PIXI.Container();
-    const bg = new PIXI.Sprite(PIXI.Assets.get('black_bg'));
+    const bg = PIXI.Sprite.from('black_bg.png');
     ui.addChild(bg as PIXI.DisplayObject);
 
     this.score = new PIXI.BitmapText(`Score: ${GameScene.scoreValue}`, CONFIG.textStyles.bitmapStyle);
