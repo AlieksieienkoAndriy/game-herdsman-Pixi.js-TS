@@ -29,6 +29,18 @@ export const manifest: PIXI.AssetInitOptions = {
             "spineboy": "resources/spine/boy/spineboy-pro.json",
           }
         },
+        {
+          name: "sounds",
+          assets: {
+            "bg_sound": "resources/sounds/bg.mp3",
+            "collect_sound": "resources/sounds/collect.mp3",
+            "sheep_sound": "resources/sounds/sheep.mp3",
+            "win_sound": "resources/sounds/win.mp3",
+            "fail_sound": "resources/sounds/fail.mp3",
+            "steps_sound": "resources/sounds/steps.mp3",
+            "lost_sound": "resources/sounds/lost.mp3",
+          }
+        },
       ]
     }
   }

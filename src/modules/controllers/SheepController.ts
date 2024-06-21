@@ -1,5 +1,7 @@
 import { Spine } from "pixi-spine";
 import * as PIXI from "pixi.js";
+import * as pixiSound from "@pixi/sound";
+
 import { CONFIG } from "../../config";
 import { Utils } from "../../utils/helpers";
 import { Herdsman } from "../Herdsman";
@@ -120,10 +122,13 @@ export class SheepController {
         sheep.sprite.off('follow_herdsman');
         sheep.isFolowing = false;
 
+        pixiSound.sound.play('collect_sound');
         this.listener.dispath(events.increaseScoreEvent);
 
         if (this.lawnGroup.amount === 0 && this.herdsmanGroup.amount === 0) {
           SceneManager.gameState = State.won;
+          pixiSound.sound.play('win_sound');
+
           this.listener.dispath(events.finishGameEvent);
         }
       });
@@ -146,9 +151,12 @@ export class SheepController {
       const targetPos: Point = {x: targetX, y: targetY};
 
       sheep.isRunningAway = true;
+      pixiSound.sound.play('sheep_sound');        
+
       sheep.move(targetPos);
       sheep.sprite.once('lost', () => {
         this.lawnGroup.removeSheep(sheep);
+        pixiSound.sound.play('lost_sound');
         this.listener.dispath(events.decreaseLivesEvent);
       });
     }, time * 1000)

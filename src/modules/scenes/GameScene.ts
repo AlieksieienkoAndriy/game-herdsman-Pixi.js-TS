@@ -1,5 +1,6 @@
 import "pixi-spine";
 import * as PIXI from "pixi.js";
+import * as pixiSound from "@pixi/sound";
 
 import { Herdsman } from "../Herdsman";
 import { Sheep } from "../Sheep";
@@ -51,6 +52,7 @@ export class GameScene extends PIXI.Container implements IScene {
     this.finishGameSubscription = {
       event: 'finish_game',
       func: () => {
+        pixiSound.sound.stop('bg_sound');
         this.showPopup(new FinalPopup())
       },
       context: this
@@ -82,6 +84,11 @@ export class GameScene extends PIXI.Container implements IScene {
     this.corral.scale.set(0.3);
     this.corral.position.set(SceneManager.width, SceneManager.height);
     this.addChild(this.corral as PIXI.DisplayObject);
+
+    pixiSound.sound.play('bg_sound', {
+      loop: true,
+      volume: 0.8,
+    });
   }
 
   protected _createUI() {
@@ -172,7 +179,7 @@ export class GameScene extends PIXI.Container implements IScene {
     this.listener.remove(this.startGameSubscription);
   }
 
-  showPopup(popup: Popup) {
+  showPopup(popup: Popup) {    
     this.interactive = false;
     this.addChild(popup.container as PIXI.DisplayObject);
   }

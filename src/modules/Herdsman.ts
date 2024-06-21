@@ -1,5 +1,7 @@
 import anime from "animejs";
 import * as PIXI from "pixi.js";
+import * as pixiSound from "@pixi/sound";
+
 import { Spine } from "pixi-spine";
 import { CONFIG } from "../config";
 import { Point } from "../utils/types";
@@ -40,6 +42,10 @@ export class Herdsman {
       this._walk.remove((this.spine as any).position);
     }
 
+    pixiSound.sound.play('steps_sound', {
+      loop: true,
+    });
+
     this._walk = anime({
       targets: (this.spine as any).position,
       easing: "linear",
@@ -49,6 +55,7 @@ export class Herdsman {
       loop: false,
 
       complete: () => {
+        pixiSound.sound.stop('steps_sound');
         this.isMoving = false;
         this.idle();
       }

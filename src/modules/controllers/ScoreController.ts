@@ -1,5 +1,6 @@
 import * as PIXI from "pixi.js";
 import * as particles from '@pixi/particle-emitter';
+import * as pixiSound from "@pixi/sound";
 
 import { Listener } from "../../utils/Listener";
 import { ScoreControllerParams, State, Subscription } from "../../utils/types";
@@ -53,6 +54,8 @@ export class ScoreController {
 
         if (this.lives.children.length === 0) {
             SceneManager.gameState = State.lose;
+
+            pixiSound.sound.play('fail_sound');
             this.listener.dispath(events.finishGameEvent);
         } else {
             this.listener.dispath(events.runAwayEvent);
