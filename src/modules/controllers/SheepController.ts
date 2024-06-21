@@ -21,7 +21,7 @@ export class SheepController {
   listener: Listener = Listener.getInstance();
   runAwaySubscription!: Subscription;
 
-  constructor({herdsman, corral}: SheepControllerParams) {
+  constructor({ herdsman, corral }: SheepControllerParams) {
     this.herdsman = herdsman;
     this.corral = corral;
 
@@ -35,16 +35,16 @@ export class SheepController {
     const positions: Point[] = this._generateRandomPos(sheepAmount);
 
     positions.forEach((pos) => {
-        const sheep = new Sheep(pos);
-        this.lawnGroup.addSheep(sheep);
-    }) 
+      const sheep = new Sheep(pos);
+      this.lawnGroup.addSheep(sheep);
+    })
   }
 
   protected _generateRandomPos(posAmount: number): Point[] {
     const config = CONFIG.game.herd;
     const positions: Point[] = [];
 
-    for(let i = 0; i < posAmount; i++) {      
+    for (let i = 0; i < posAmount; i++) {
       let currentX = 0;
       let currentY = 0;
 
@@ -58,7 +58,7 @@ export class SheepController {
             pos.x - config.distance / 3 < currentX
         )
       );
-      
+
       do {
         currentY = Utils.getRandomNum(config.distance * 2, CONFIG.canvas.height - config.distance * 2);
       } while (
@@ -70,13 +70,13 @@ export class SheepController {
         )
       );
 
-      const pos: Point = {x: currentX, y: currentY};
+      const pos: Point = { x: currentX, y: currentY };
       positions.push(pos);
     }
     return positions;
   }
 
-  addListeners() {    
+  addListeners() {
     this.runAwaySubscription = {
       event: 'run_away',
       func: this._runAwaySheep,
@@ -84,7 +84,7 @@ export class SheepController {
     };
     this.listener.add(this.runAwaySubscription);
   }
-  
+
   checkSheeps() {
     const followingSheep = this.lawnGroup.sheep.find((sheep) =>
       Utils.hitRectangle(
@@ -98,7 +98,7 @@ export class SheepController {
         this.lawnGroup.removeSheep(followingSheep);
         this.herdsmanGroup.addSheep(followingSheep);
 
-        if(followingSheep.isRunningAway) {
+        if (followingSheep.isRunningAway) {
           followingSheep.isRunningAway = false;
           this._runAwaySheep();
 
@@ -139,19 +139,24 @@ export class SheepController {
     const time = Utils.getRandomNum(3, 5);
     setTimeout(() => {
       if (this.lawnGroup.amount === 0) {
+        if (SceneManager.gameState === State.play && this.herdsmanGroup.amount === 0) {
+          SceneManager.gameState = State.won;
+          pixiSound.sound.play('win_sound');
+          this.listener.dispath(events.finishGameEvent);
+        }
         return;
       }
-  
+
       const config = CONFIG.game.herd;
-  
+
       const sheep: Sheep = this.lawnGroup.sheep[0];
-  
+
       const targetX = (sheep.sprite.x < CONFIG.canvas.width / 2) ? -config.distance * 2 : CONFIG.canvas.width + config.distance * 2;
       const targetY = Utils.getRandomNum(0, CONFIG.canvas.height);
-      const targetPos: Point = {x: targetX, y: targetY};
+      const targetPos: Point = { x: targetX, y: targetY };
 
       sheep.isRunningAway = true;
-      pixiSound.sound.play('sheep_sound');        
+      pixiSound.sound.play('sheep_sound');
 
       sheep.move(targetPos);
       sheep.sprite.once('lost', () => {
