@@ -178,6 +178,7 @@ export class GameScene extends PIXI.Container implements IScene {
 
   destroyScene() {
     this.listener.remove(this.finishGameSubscription);
+    this.listener.remove(this.restartGameSubscription);
     this.sheepController.destroy();
     this.scoreController.destroy();
 
