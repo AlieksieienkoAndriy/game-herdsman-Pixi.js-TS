@@ -1,5 +1,6 @@
 import "pixi-spine";
 import * as PIXI from "pixi.js";
+
 import { Herdsman } from "../Herdsman";
 import { Sheep } from "../Sheep";
 import { SheepController } from "../controllers/SheepController";
@@ -14,8 +15,8 @@ import { Popup } from "../popups/Popup";
 import { SceneManager } from "../SceneManager";
 
 export class GameScene extends PIXI.Container implements IScene {
-  static scoreValue: number = 0;  
-  corral!: PIXI.Sprite;  
+  static scoreValue: number = 0;
+  corral!: PIXI.Sprite;
   herdsman!: Herdsman;
   score!: PIXI.BitmapText;
   sheep_left_sprites!: PIXI.Container;
@@ -27,7 +28,7 @@ export class GameScene extends PIXI.Container implements IScene {
   finishGameSubscription!: Subscription;
   restartGameSubscription!: Subscription;
 
-  constructor() {    
+  constructor() {
     super();
     this.interactive = true;
 
@@ -91,13 +92,13 @@ export class GameScene extends PIXI.Container implements IScene {
     this.score = new PIXI.BitmapText(`Score: ${GameScene.scoreValue}`, CONFIG.textStyles.bitmapStyle);
     this.score.position.set(0, (ui.height - this.score.height) / 2);
     ui.addChild(this.score as PIXI.DisplayObject);
-    
+
     const sheep_left = new PIXI.Container();
     const sheep_left_text = new PIXI.BitmapText(`Sheep: `, CONFIG.textStyles.bitmapStyle);
     sheep_left.addChild(sheep_left_text as PIXI.DisplayObject);
 
     this.sheep_left_sprites = new PIXI.Container();
-    
+
     for (let i = 0; i < 3; i++) {
       const sheep = new PIXI.Sprite(
         PIXI.Assets.get('sheeps').textures["Sheep_1.png"]
@@ -157,23 +158,23 @@ export class GameScene extends PIXI.Container implements IScene {
   }
 
   protected _createScoreController() {
-    const params: ScoreControllerParams = {      
+    const params: ScoreControllerParams = {
       score: this.score,
       lives: this.sheep_left_sprites
     }
 
-    this.scoreController = new ScoreController(params);    
+    this.scoreController = new ScoreController(params);
   }
 
   startGame() {
     this.interactive = true;
     this.listener.dispath(events.runAwayEvent);
     this.listener.remove(this.startGameSubscription);
-  }  
+  }
 
   showPopup(popup: Popup) {
-    this.interactive = false;    
-    this.addChild(popup.container as PIXI.DisplayObject);   
+    this.interactive = false;
+    this.addChild(popup.container as PIXI.DisplayObject);
   }
 
   destroyScene() {
